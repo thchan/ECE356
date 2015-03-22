@@ -1,5 +1,5 @@
 <%-- 
-    Document   : index
+    Document   : index.jsp
     Created on : March 21, 2015 7:52:06 PM
     Author     : thchan
 --%>
@@ -12,8 +12,15 @@
         <title>Login Page</title>
     </head>
     <body>
-        <h1>Please Login:</h1>
-        <ul>
+        <h1>Please Login:</h1><br><br>
+        <form action="LoginServelet">
+            Username:<br>
+            <input type="text" name="user_alias"><br>
+            Password:<br>
+            <input type="text" name="password"><br>
+            <input type="submit" value="Log In"><br> 
+        </form>
+        <br>
         <!-- These links are place holders for other pages -->
         <li><a href="QueryServlet?qnum=1">Patient Search</a></li>        
         <li><a href="QueryServlet?qnum=2">Doctor Search</a></li>        
