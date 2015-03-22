@@ -1,5 +1,7 @@
 package ece356_project;
 
+import java.sql.Date;
+
 public class Review {
     int review_id;
 	String p_alias;
