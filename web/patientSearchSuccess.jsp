@@ -16,7 +16,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
+            <title>Patient search results</title>
         </head>
         <%! ArrayList patientList;%>
         <% patientList = (ArrayList) request.getAttribute("patientList");%>
@@ -26,8 +26,8 @@
                 for (Patient pa : patientList) {
             %>
             <tr>
-                <td><%= pa.getAlias()%></td>
-                <td><%= pa.getAddress()%></td>
+                <td><%= pa.p_alias()%></td>
+                <td><%= pa.home_address_city, pa.home_address_province %></td>
                 <td><%= pa.getNumReviews()%></td>
                 <td><%= pa.getLastReview()%></td>
                 <td><a href="addFriend.jsp?alias=<%= pa.getAlias()%>">Add</a></td>
