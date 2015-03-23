@@ -19,7 +19,7 @@
             <title>Doctor Menu</title>
         </head>
         <body>
-            <h1><h:outputText value="Hello World!"/></h1>
+            <li><a href="doctorViewProfileSuccess.jsp?alias=<% get alias%>">Doctor Search</a></li>
         </body>
     </html>
 </f:view>

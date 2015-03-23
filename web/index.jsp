@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Please Login:</h1><br><br>
-        <form action="LoginServelet">
+        <form action="LoginServlet">
             Username:<br>
             <input type="text" name="user_alias"><br>
             Password:<br>
