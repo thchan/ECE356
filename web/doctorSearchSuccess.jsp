@@ -16,10 +16,25 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
+            <title>Doctor Search</title>
         </head>
+        <%! ArrayList doctorList;%>
+        <% doctorList = (ArrayList) request.getAttribute("doctorList");%>
         <body>
-            <h1><h:outputText value="Hello World!"/></h1>
+            <table border=1><tr><th>Name</th><th>Gender</th><th>Average review score</th><th>Number of Reviews</th><th>View Profile</th></tr>
+            <%
+                for (Doctor doc : doctorList) {
+            %>
+            <tr>
+                <td><%= doc.getName()%></td>
+                <td><%= doc.getAddress()%></td>
+                <td><%= doc.getNumReviews()%></td>
+                <td><%= doc.getLastReview()%></td>
+                <td><a href="doctorProfileSuccess.jsp?alias=<%= doc.getAlias()%>">View</a></td>
+            </tr>
+            <%
+                }
+            %>
         </body>
     </html>
 </f:view>
