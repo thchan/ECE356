@@ -28,8 +28,8 @@
             <tr>
                 <td><%= pa.p_alias%></td>
                 <td><%= pa.home_address_city%>, <%= pa.home_address_province %></td>
-                <td><%= pa.p_alias%> num reviews</td>
-                <td><%= pa.p_alias%>last review</td>
+                <td><%= pa.number_of_reviews%></td>
+                <td><%= pa.last_review_date%></td>
                 <td><a href="addFriend.jsp?alias=<%= pa.p_alias%>">Add</a></td>
             </tr>
             <%
