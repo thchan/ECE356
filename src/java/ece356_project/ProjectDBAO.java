@@ -242,8 +242,8 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "SELECT user_alias,d_alias, first_name ,last_name, gender, AVG(rating) , COUNT(distinct review_id), (YEAR(curdate()) - license_year) AS number_of_years_licensed ";
-                query += ",(CASE  WHEN d_alias IN " +
+                String query = "SELECT user_alias,d_alias, first_name, email_address ,last_name, gender, AVG(rating) , COUNT(distinct review_id), (YEAR(curdate()) - license_year) AS number_of_years_licensed ";
+                /*query += ",(CASE  WHEN d_alias IN " +
                          "(SELECT d_alias FROM " +
                          "((SELECT d_alias " +
                          "FROM Review " +
@@ -263,24 +263,24 @@ public class ProjectDBAO {
                          "    WHERE Friend.p_alias_a = ? AND flag = TRUE) " +
                          "))) AS temp) " +
                          "         THEN TRUE ELSE FALSE END  " +
-                         ") AS friend_reviewed";
-                query += " FROM DoctorData NATURAL JOIN Review";
+                         ") AS friend_reviewed ";*/
+                query += " FROM DoctorData NATURAL LEFT JOIN Review";
                 query += " WHERE TRUE ";
-                
+                /*
                 if (first_name.length() != 0){
-                    query += " AND first_name like %?%";
+                    query += " AND first_name like ?";
                 }
                 
                 if (last_name.length() != 0){
-                    query += " AND last_name like %?%";
+                    query += " AND last_name like ?";
                 }
                 
                 if (address.length() != 0){
-                    query += " AND address like %?%";
+                    query += " AND address like ?";
                 }
                 
                 if (address.length() != 0){
-                    query += " AND postal_code like %?%";
+                    query += " AND postal_code like ?";
                 }
                 
                 if (gender.length() != 0){
@@ -292,40 +292,40 @@ public class ProjectDBAO {
                 }
 
                 if (comments.length() != 0){
-                    query += " AND LCASE(comments) like LCASE('%?%')";
+                    query += " AND LCASE(comments) like LCASE(?)";
                 }
                 
                 if (specialization.length() != 0){
-                    query += " AND spec_name like %?%";
-                }
+                    query += " AND spec_name like ?";
+                }*/
                 
                 query += " GROUP BY (d_alias)";
-                
+                /*
                 if (rating != -1){
                     query += " HAVING (AVG(rating) > ?";
-                }
+                }*/
                 
                 pstmt = con.prepareStatement(query);
                 
                 int num = 0;
                 
-                pstmt.setString(++num, p_alias);
-                pstmt.setString(++num, p_alias);
-                
+                //pstmt.setString(++num, p_alias);
+                //pstmt.setString(++num, p_alias);
+                /*
                 if (first_name.length() != 0){
-                    pstmt.setString(++num, first_name);
+                    pstmt.setString(++num, "%"+first_name+"%");
                 }
                 
                 if (last_name.length() != 0){
-                    pstmt.setString(++num, last_name);
+                    pstmt.setString(++num, "%"+last_name+"%");
                 }
                 
                  if (address.length() != 0){
-                    pstmt.setString(++num, address);
+                    pstmt.setString(++num, "%"+address+"%");
                 }
                 
                 if (address.length() != 0){
-                    pstmt.setString(++num, address);
+                    pstmt.setString(++num, "%"+address+"%");
                 }
                 
                 if (gender.length() != 0){
@@ -337,16 +337,16 @@ public class ProjectDBAO {
                 }
                 
                 if (comments.length() != 0){
-                    pstmt.setString(++num, comments);
+                    pstmt.setString(++num, "%"+comments+"%");
                 }
                 
                 if (specialization.length() != 0){
-                    pstmt.setString(++num, specialization);
+                    pstmt.setString(++num, "%"+specialization+"%");
                 }
                 
                 if (rating != -1){
                     pstmt.setInt(++num, rating);
-                }
+                }*/
                 
                  ResultSet resultSet;
                  resultSet = pstmt.executeQuery();
@@ -362,7 +362,8 @@ public class ProjectDBAO {
                              resultSet.getInt("AVG(rating)"),
                              resultSet.getInt("COUNT(distinct review_id)"),
                              resultSet.getInt("number_of_years_licensed"),
-                             resultSet.getBoolean("friend_reviewed"));
+                             //resultSet.getBoolean("friend_reviewed"));
+                             false);
                      ret.add(e);
                 }
                  

@@ -52,7 +52,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }catch(Exception e){}
             String specialization = request.getParameter("spec");
             ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization,"pat_bob");
-            request.setAttribute("patientList", ret);
+            request.setAttribute("doctorList", ret);
             url="/doctorSearchSuccess.jsp";
         }catch(Exception e){
             request.setAttribute("errmsg", e);
