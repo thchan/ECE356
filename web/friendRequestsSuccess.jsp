@@ -16,10 +16,24 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
+            <title>Friend Requests</title>
         </head>
+        <%! ArrayList<Patient> patientList;%>
+        <% patientList = (ArrayList<Patient>) request.getAttribute("patientList");%>
         <body>
-            <h1><h:outputText value="Hello World!"/></h1>
+            <h1>Friend Requests</h1>
+            <table border=1><tr><th>Alias</th><th>Email</th><th>Confirm Request</th></tr>
+            <%
+                for (Patient pa : patientList) {
+            %>
+            <tr>
+                <td><%= pa.p_alias%></td>
+                <td><%= pa.email%></td>                
+                <td><a href="addFriend.jsp?alias=<%= pa.p_alias%>">Add</a></td>
+            </tr>
+            <%
+                }
+            %>
         </body>
     </html>
 </f:view>

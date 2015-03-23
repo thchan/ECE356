@@ -21,6 +21,7 @@
         <body>
             <li><a href="doctorSearch.jsp">Doctor Search</a></li>
             <li><a href="patientSearch.jsp">Patient Search</a></li>
+            <li><a href="patientSearch.jsp">Friend Requests</a></li>
         </body>
     </html>
 </f:view>
