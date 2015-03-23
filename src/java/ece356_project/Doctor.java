@@ -22,7 +22,7 @@ public class Doctor{
         this.last_name = last_name;
         this.email_address = email_address;
 	this.gender = gender;
-	this.license_year = Calendar.getInstance().get(Calendar.YEAR) - license_year;
+	this.license_year = license_year;
         this.average_rating = average_rating;
         this.number_of_reviews = number_of_reviews;
     }
