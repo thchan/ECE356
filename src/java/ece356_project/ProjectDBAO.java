@@ -20,7 +20,7 @@ public class ProjectDBAO {
         try {
             con.createStatement();
             stmt = con.createStatement();
-            stmt.execute("USE ece356db_t39chan;");
+            stmt.execute("USE ece356db_stmaraj;");
         } finally {
             if (stmt != null) {
                 stmt.close();
