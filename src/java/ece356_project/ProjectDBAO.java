@@ -373,6 +373,131 @@ public class ProjectDBAO {
             }
         }
         
+            public static ArrayList<WorkAddress> getWorkAddress(String d_alias) 
+            throws ClassNotFoundException, SQLException{
+                Connection con = null;
+                PreparedStatement pstmt = null;
+                ArrayList<WorkAddress> ret = null;
+                
+                try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT location_id,address, city, province, country, postal_code ";
+                query += " FROM WorkAddress ";
+                query += "WHERE location_id in (SELECT location_id FROM WorksAt WHERE d_alias = ?) ";
+                
+                pstmt = con.prepareStatement(query);
+                
+                pstmt.setString(1, d_alias);
+                
+                 ResultSet resultSet;
+                 resultSet = pstmt.executeQuery();
+                 
+                 ret = new ArrayList<WorkAddress>();
+                 while (resultSet.next()){
+                     WorkAddress e = new WorkAddress(
+                             resultSet.getInt("location_id"),
+                             resultSet.getString("address"),
+                             resultSet.getString("city"),
+                             resultSet.getString("province"),
+                             resultSet.getString("postal_code"));
+                     ret.add(e);
+                }
+                 
+                return ret;
+                } finally {
+                     if (pstmt != null) {
+                        pstmt.close();
+                     }
+                    
+                    if (con != null) {
+                        con.close();
+                     }
+                }
+            }
+                
+            
+            public static ArrayList<Review> getReviews(String d_alias)
+            throws ClassNotFoundException, SQLException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ArrayList<Review> ret = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT p_alias, rating, date, comments ";
+                query += " FROM Review";
+                query += "WHERE TRUE ";
+                query += " AND d_alias = ?";
+                
+                pstmt = con.prepareStatement(query);
+                
+                pstmt.setString(1, d_alias);
+                
+                 ResultSet resultSet;
+                 resultSet = pstmt.executeQuery();
+                 
+                 ret = new ArrayList<Review>();
+                 while (resultSet.next()){
+                     Review e = new Review(
+                             resultSet.getInt("review_id"),
+                             resultSet.getString("p_alias"),
+                             d_alias,
+                             resultSet.getInt("rating"),
+                             resultSet.getDate("date"),
+                             resultSet.getString("comments"));
+                     ret.add(e);
+                }
+                 
+                return ret;
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+     
+            public static void writeReview(String p_alias, String d_alias, int rating, Date date, String comments)
+            throws ClassNotFoundException, SQLException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ArrayList<Review> ret = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "INSERT INTO Review (p_alias d_alias, rating, date, comments) ";
+                query += " VALUES(?,?,?,CURDATE(),?)";
+                
+                pstmt = con.prepareStatement(query);
+                
+                pstmt.setString(1, p_alias);
+                pstmt.setString(2, d_alias);
+                pstmt.setInt(3, rating);
+                pstmt.setString(4, comments);
+                
+                 ResultSet resultSet;
+                 resultSet = pstmt.executeQuery();
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
 }
 		
 	
