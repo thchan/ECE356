@@ -35,7 +35,7 @@ public class patientSearch extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         String url;
-        try (PrintWriter out = response.getWriter()) {
+        try {
 			// TODO Add user sign in here
             String user_alias = request.getParameter("user_alias");
             String province = request.getParameter("province");

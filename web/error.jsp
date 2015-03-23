@@ -3,7 +3,8 @@
     Created on : 22-Mar-2015, 10:07:07 PM
     Author     : Thomas
 --%>
-
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java.io.StringWriter"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -16,7 +17,10 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>ERROR ERROR MUY BEUNO</title>
         </head>
-        <% String errmsg = request.getAttribute("errmsg");>
+        <%String errmsg;%>
+        <%Exception myException = (Exception)request.getAttribute("exception");%>
+        <%errmsg = myException.getMessage();%>
+ 
         
         <body>
             <h1>Error: <%= errmsg%></h1>
