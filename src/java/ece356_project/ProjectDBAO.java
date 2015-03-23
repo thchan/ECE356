@@ -41,7 +41,7 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "SELECT user_alias,PatientData.p_alias, home_address, home_address_city, email_address , count(distinct review_id), max(date) ";
+                String query = "SELECT user_alias,PatientData.p_alias, home_address_province, home_address_city, email_address , count(distinct review_id), max(date) ";
                 query += "FROM PatientData LEFT OUTER JOIN Review ";
                 query += "ON (PatientData.p_alias = Review.p_alias) ";
                 query += "WHERE TRUE ";
