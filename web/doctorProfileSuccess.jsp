@@ -10,6 +10,7 @@
 <%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    <a href="doctorProfileSuccess.jsp"></a>
     "http://www.w3.org/TR/html4/loose.dtd">
 
 <f:view>
@@ -36,13 +37,14 @@
                 for ( Review rev : reviewList) {
             %>
             <tr>
-                <td><a href="viewReviewSuccess.jsp?alias=<%= rev.review_id%>">View<%= rev.review_id%></td>
+                <td><a href="viewReviewSuccess.jsp?alias=<%= rev.review_id%>">View<%= rev.review_id%></a></td>
                 <td><%= rev.p_alias%></td>
                 <td><%= rev.rating%></td>
             </tr>
             <%
                 }
             %>
+            <a href="writeReview.jsp?alias=<%= doc.d_alias%>">Write Review</a>
         </body>
     </html>
 </f:view>

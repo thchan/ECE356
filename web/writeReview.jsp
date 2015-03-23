@@ -16,10 +16,18 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
+            <title>Write Review</title>
         </head>
+        <% String d_alias = request.getParameter("alias");%>
         <body>
-            <h1><h:outputText value="Hello World!"/></h1>
+            <form method="post" action="AddEmployeeServlet">
+            Search Criteria:
+            <p>
+            <input type="hidden" name="patAlias" value="TODO get current alias"><br/>
+            Province: <input type="text" name="Province" size="40"><br/>
+            City: <input type="text" name="City" size="40"><br/>  
+            <input type="hidden" name="docAlias" value="<%=d_alias%>">
+            <p> <input type="submit" value="Submit">
         </body>
     </html>
 </f:view>
