@@ -22,6 +22,7 @@
         <body>
             <table border=1><tr><th>Alias</th><th>Home Address</th><th>Number of Review</th><th>Last Review</th><th>Add friend</th></tr>
             <%
+                if( patientList != null ) {
                 for (Patient pa : patientList) {
             %>
             <tr>
@@ -32,6 +33,7 @@
                 <td><a href="addFriend.jsp?alias=<%= pa.p_alias%>">Add</a></td>
             </tr>
             <%
+                }
                 }
             %>
         </body>
