@@ -104,7 +104,7 @@ public class ProjectDBAO {
         }
         
         
-        public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating)
+        public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating, String specialization)
             throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
@@ -148,6 +148,14 @@ public class ProjectDBAO {
                     query += " AND last_name like %?%";
                 }
                 
+                if (address.length() != 0){
+                    query += " AND address like %?%";
+                }
+                
+                if (address.length() != 0){
+                    query += " AND postal_code like %?%";
+                }
+                
                 if (gender.length() != 0){
                     query += " AND gender = ?";
                 }
@@ -158,6 +166,10 @@ public class ProjectDBAO {
                 
                 if (comments.length() != 0){
                     query += " AND LCASE(comments) like LCASE('%?%')";
+                }
+                
+                if (specialization.length() != 0){
+                    query += " AND spec_name like %?%";
                 }
                 
                 query += " GROUP BY (d_alias)";
@@ -177,6 +189,14 @@ public class ProjectDBAO {
                     pstmt.setString(++num, last_name);
                 }
                 
+                 if (address.length() != 0){
+                    pstmt.setString(++num, address);
+                }
+                
+                if (address.length() != 0){
+                    pstmt.setString(++num, address);
+                }
+                
                 if (gender.length() != 0){
                     pstmt.setString(++num, gender);
                 }
@@ -187,6 +207,10 @@ public class ProjectDBAO {
                 
                 if (comments.length() != 0){
                     pstmt.setString(++num, comments);
+                }
+                
+                if (specialization.length() != 0){
+                    pstmt.setString(++num, specialization);
                 }
                 
                 query += " GROUP BY (d_alias)";
@@ -301,6 +325,42 @@ public class ProjectDBAO {
                              resultSet.getString("spec_name"));
                      ret.add(e);
                 }
+                return ret;
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+     public static ArrayList<String> getAllSpecializations()
+            throws ClassNotFoundException, SQLException {
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ArrayList<String> ret = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT spec_name";
+                query += " FROM Specialization";
+                
+                pstmt = con.prepareStatement(query);
+ 
+                 ResultSet resultSet;
+                 resultSet = pstmt.executeQuery();
+                 
+                 ret = new ArrayList<String>();
+                 while (resultSet.next()){
+                     ret.add(resultSet.getString("spec_name"));
+                }
+                 
                 return ret;
             } finally {
                 if (pstmt != null) {
