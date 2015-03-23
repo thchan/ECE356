@@ -47,15 +47,15 @@ public class ProjectDBAO {
                 query += "WHERE TRUE ";
                 
                 if (user_alias.length() != 0){
-                    query += " AND user_alias = ?";
+                    query += " AND user_alias LIKE %?%";
                 }
                 
                 if (province.length() != 0){
-                    query += " AND home_address_province = ?";
+                    query += " AND home_address_province LIKE %?%";
                 }
                 
                  if (city.length() != 0){
-                    query += " AND home_address_city = ?";
+                    query += " AND home_address_city LIKE %?%";
                 }
                 
                 query += " GROUP BY (p_alias)";
@@ -299,7 +299,6 @@ public class ProjectDBAO {
                      Specialization e = new Specialization(
                              resultSet.getInt("spec_id"),
                              resultSet.getString("spec_name"));
-;
                      ret.add(e);
                 }
                 return ret;
