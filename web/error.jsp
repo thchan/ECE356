@@ -1,6 +1,6 @@
 <%-- 
-    Document   : menu
-    Created on : 22-Mar-2015, 3:22:26 PM
+    Document   : error
+    Created on : 22-Mar-2015, 10:07:07 PM
     Author     : Thomas
 --%>
 
@@ -14,10 +14,12 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>Doctor Menu</title>
+            <title>ERROR ERROR MUY BEUNO</title>
         </head>
+        <% String errmsg = request.getAttribute("errmsg");>
+        
         <body>
-            <li><a href="doctorViewProfileSuccess.jsp?alias=<% get alias%>">Doctor Search</a></li>
+            <h1>Error: <%= errmsg%></h1>
         </body>
     </html>
 </f:view>

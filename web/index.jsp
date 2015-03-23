@@ -22,7 +22,7 @@
         </form>
         <br>
         <!-- These links are place holders for other pages -->
-        <li><a href="QueryServlet?qnum=1">Patient Search</a></li>        
+        <li><a href="patientSearch.jsp">Patient Search</a></li>        
         <li><a href="QueryServlet?qnum=2">Doctor Search</a></li>        
         <li><a href="queryEmployee.jsp">View Friend Requests</a></li>        
         <li><a href="AddEmployeeServlet">View Own Profile</a></li>

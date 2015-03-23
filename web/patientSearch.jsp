@@ -6,8 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
-<%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
+<%@page import="java.util.ArrayList"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
@@ -20,12 +19,12 @@
         </head>
         <body>
             <h1>Patient Search</h1>
-            <form method="post" action="AddEmployeeServlet">
+            <form method="post" action="patientSearch">
             Search Criteria:
             <p>
-            Patient Alias: <input type="text" name="Alias" size="20"><br/>
-            Province: <input type="text" name="Province" size="40"><br/>
-            City: <input type="text" name="City" size="40"><br/>               
+            Patient Alias: <input type="text" name="user_alias" size="20"><br/>
+            Province: <input type="text" name="province" size="40"><br/>
+            City: <input type="text" name="city" size="40"><br/>               
             <p> <input type="submit" value="Submit">
         </body>
     </html>
