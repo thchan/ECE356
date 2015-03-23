@@ -30,21 +30,28 @@ public class doctorSearch extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet doctorSearch</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet doctorSearch at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setContentType("text/html;charset=UTF-8");
+        String url;
+        try {
+			// TODO Add user sign in here
+            String first_name = request.getParameter("first_name");
+            String last_name = request.getParameter("last_name");
+            String address = request.getParameter("address");
+            String gender = request.getParameter("gender");
+            String license_year = request.getParameter("license_year");
+            String address = request.getParameter("address");
+            String address = request.getParameter("address");
+            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, licence_year, comments, rating);
+            request.setAttribute("patientList", ret);
+            url="/patientSearchSuccess.jsp";
+        }catch(Exception e){
+            request.setAttribute("errmsg", e);
+            url = "/error.jsp";
         }
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

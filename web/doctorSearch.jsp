@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="ece356_project.Specialization"%>
+<%@page import="ece356_project.Doctor"%>
+<%@page import="java.util.ArrayList"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,28 +16,29 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
+            <title>Doctor Search</title>
         </head>
         <body>
             <h1>Search for doctor</h1>    
             <form method="post" action="AddEmployeeServlet">
             Enter doctor search criteria:
             <p>       
-                Doctor name: <input type="text" name="docName" size="20"><br/> 
+                First name: <input type="text" name="first_name" size="20"><br/>
+                Last name: <input type="text" name="last_name" size="20"><br/>
                 Gender:
                 <select name="gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
                 </select><br/>
                 Work address:<input type="text" name="address" size="20"><br/>
                 Specialization:
+                <%!ArrayList<Specialization> specList;%>
+                <% specList = (ArrayList<Specialization>)ProjectDBAO.getAllSpecializations();%>
                 <select name="spec">
-                    <%! ArrayList<Department> departmentList;%>
                     <%
-                        departmentList = (ArrayList<Department>) request.getAttribute("departmentList");
-                        for (Department dep : departmentList) {
+                        for (Specialization spec : specList) {
                     %>
-                    <option value="<%= dep.getDeptID()%>"><%= dep.getDeptName()%></option>
+                    <option value="<%= spec.spec_id%>"><%= spec.spec_name%></option>
                     <%
                         }
                     %>
