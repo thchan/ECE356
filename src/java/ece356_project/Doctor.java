@@ -28,4 +28,8 @@ public class Doctor{
         this.number_of_reviews = number_of_reviews;
         this.is_friend_reviewed = is_friend_reviewed;
     }
+    public String getName() {
+        String ret = this.first_name + " " + this.last_name;
+        return ret;
+    }
 }
