@@ -41,12 +41,13 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String last_name = request.getParameter("last_name");
             String address = request.getParameter("address");
             String gender = request.getParameter("gender");
-            String license_year = request.getParameter("license_year");
-            String address = request.getParameter("address");
-            String address = request.getParameter("address");
-            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, licence_year, comments, rating);
+            int license_year = Integer.parseInt(request.getParameter("license_year"));
+            String comments = request.getParameter("comments");
+            int rating = Integer.parseInt(request.getParameter("rating"));
+            String specialization = request.getParameter("spec");
+            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization);
             request.setAttribute("patientList", ret);
-            url="/patientSearchSuccess.jsp";
+            url="/doctorSearchSuccess.jsp";
         }catch(Exception e){
             request.setAttribute("errmsg", e);
             url = "/error.jsp";

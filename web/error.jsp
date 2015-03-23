@@ -18,9 +18,14 @@
             <title>ERROR ERROR MUY BEUNO</title>
         </head>
         <%String errmsg;%>
+        <%String stackTrace;%>
         <%Exception myException = (Exception)request.getAttribute("exception");%>
         <%errmsg = myException.getMessage();%>
- 
+        <%if (errmsg == null) { errmsg = ""; }
+        StringWriter errorWriter = new StringWriter();
+        myException.printStackTrace(new PrintWriter(errorWriter));
+        stackTrace = errorWriter.toString();
+        %>
         
         <body>
             <h1>Error: <%= errmsg%></h1>
