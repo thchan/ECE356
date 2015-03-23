@@ -5,7 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="ece356_project.Patient"%>
+<%//@page import="ece356_project.Department"%>
 <%@page import="java.util.ArrayList"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

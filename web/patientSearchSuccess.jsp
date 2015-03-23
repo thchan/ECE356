@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="ece356_project.Patient"%>
 <%@page import="java.util.ArrayList"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -17,19 +17,19 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>Patient search results</title>
         </head>
-        <%! ArrayList patientList;%>
-        <% patientList = (ArrayList) request.getAttribute("patientList");%>
+        <%! ArrayList<Patient> patientList;%>
+        <% patientList = (ArrayList<Patient>) request.getAttribute("patientList");%>
         <body>
             <table border=1><tr><th>Alias</th><th>Home Address</th><th>Number of Review</th><th>Last Review</th><th>Add friend</th></tr>
             <%
                 for (Patient pa : patientList) {
             %>
             <tr>
-                <td><%= pa.p_alias()%></td>
-                <td><%= pa.home_address_city, pa.home_address_province %></td>
-                <td><%= pa.getNumReviews()%></td>
-                <td><%= pa.getLastReview()%></td>
-                <td><a href="addFriend.jsp?alias=<%= pa.getAlias()%>">Add</a></td>
+                <td><%= pa.p_alias%></td>
+                <td><%= pa.home_address_city%>, <%= pa.home_address_province %></td>
+                <td><%= pa.p_alias%> num reviews</td>
+                <td><%= pa.p_alias%>last review</td>
+                <td><a href="addFriend.jsp?alias=<%= pa.p_alias%>">Add</a></td>
             </tr>
             <%
                 }

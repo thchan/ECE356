@@ -40,8 +40,8 @@ public class patientSearch extends HttpServlet {
             String user_alias = request.getParameter("user_alias");
             String province = request.getParameter("province");
             String city = request.getParameter("city");
-            ArrayList ret = ProjectDBAO.searchPatients( user_alias, province, city);
-            request.setAttribute("patientList", ret);
+            //ArrayList ret = ProjectDBAO.searchPatients( user_alias, province, city);
+            //request.setAttribute("patientList", ret);
             url="/patientSearchSuccess.jsp";
         }catch(Exception e){
             request.setAttribute("errmsg", e);
