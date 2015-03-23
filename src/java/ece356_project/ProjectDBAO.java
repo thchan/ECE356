@@ -21,6 +21,10 @@ public class ProjectDBAO {
             con.createStatement();
             stmt = con.createStatement();
             stmt.execute("USE ece356db_stmaraj;");
+        } catch(Exception e){
+            if (con != null) {
+                con.close();
+            }
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -29,7 +33,130 @@ public class ProjectDBAO {
         return con;
 	}
 	
+        public static Login doctorLogin(String user_alias, String password)
+                throws ClassNotFoundException, SQLException{
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            Login ret = null;
+            
+            try{
+                String salt = getSalt(user_alias);
+                if (salt.length() == 0){return null;}
+                
+                con = getConnection();
+                
+                String query = "SELECT user_alias,d_alias, password_hash, password_salt ";
+                query += "FROM DoctorData ";
+                query += "WHERE user_alias = ?";
+                query += " AND password_hash = SHA2(?,256)";
+                //query += " AND password_hash = SHA2(CONCAT(?,?),256)";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, password);
+                //pstmt.setString(3, salt);
+                
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                
+                if (resultSet.next()){
+                    ret = new Login(resultSet.getString("user_alias"),resultSet.getString("d_alias") , resultSet.getString("password_hash"), resultSet.getString("password_salt"), false);
+                    return ret;
+                }else{
+                    return null;
+                }
+                
+            }finally{
+                if (pstmt != null) {
+                    pstmt.close();
+                }    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+        public static Login patientLogin(String user_alias, String password)
+                throws ClassNotFoundException, SQLException{
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            Login ret = null;
+            
+            try{
+                
+                String salt = getSalt(user_alias);
 
+                if (salt.length() == 0){return null;}
+                
+                con = getConnection();
+                
+                String query = "SELECT user_alias,p_alias, password_hash, password_salt ";
+                query += "FROM PatientData ";
+                query += "WHERE user_alias = ?";
+                query += " AND password_hash = SHA2(?,256)";
+                //query += " AND password_hash = SHA2(CONCAT(?,?),256)";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, password);
+                //.setString(3, salt);
+                
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+
+                if (resultSet.next()){
+                    ret = new Login(resultSet.getString("user_alias"),resultSet.getString("p_alias") , resultSet.getString("password_hash"), resultSet.getString("password_salt"), true);
+                    return ret;
+                }else{
+                    return null;
+                }
+                
+            }finally{
+                if (pstmt != null) {
+                    pstmt.close();
+                }    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+         public static String getSalt(String user_alias)
+                throws ClassNotFoundException, SQLException{
+                Connection con = null;
+                PreparedStatement pstmt = null;
+                String ret;
+            
+            try{
+                con = getConnection();
+                
+                String query = "SELECT password_salt ";
+                query += "FROM User ";
+                query += "WHERE user_alias = ?";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                
+                if (resultSet.next()){        
+                    ret = resultSet.getString("password_salt");
+                    return ret;
+                }else{
+                    return null;
+                }
+                
+            }finally{
+                if (pstmt != null) {
+                    pstmt.close();
+                }    
+                if (con != null) {
+                    con.close();
+                }
+            }
+         }
+        
 	public static ArrayList<Patient> searchPatients(String user_alias, String province, String city)
             throws ClassNotFoundException, SQLException{
 		
@@ -47,32 +174,32 @@ public class ProjectDBAO {
                 query += "WHERE TRUE ";
                 
                 if (user_alias.length() != 0){
-                    query += " AND user_alias LIKE %?%";
+                    query += " AND user_alias LIKE ?";
                 }
                 
                 if (province.length() != 0){
-                    query += " AND home_address_province LIKE %?%";
+                    query += " AND home_address_province LIKE ?";
                 }
                 
                  if (city.length() != 0){
-                    query += " AND home_address_city LIKE %?%";
+                    query += " AND home_address_city LIKE ?";
                 }
                 
                 query += " GROUP BY (p_alias)";
                 
                 pstmt = con.prepareStatement(query);
-                
+
                 int num = 0;
                 if (user_alias.length() != 0){
-                    pstmt.setString(++num, user_alias);
+                    pstmt.setString(++num, "%"+user_alias+"%");
                 }
                 
                 if (province.length() != 0){
-                    pstmt.setString(++num, province);
+                    pstmt.setString(++num, "%"+province+"%");
                 }
                 
                  if (city.length() != 0){
-                    pstmt.setString(++num, city);
+                    pstmt.setString(++num, "%"+city+"%");
                 }
                 
                  ResultSet resultSet;
@@ -104,7 +231,7 @@ public class ProjectDBAO {
         }
         
         
-        public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating, String specialization)
+        public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating, String specialization, String p_alias)
             throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
@@ -115,27 +242,27 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "SELECT user_alias,d_alias, first_name ,last_name, gender, AVG(rating) , COUNT(distinct review_id), (YEAR(curdate()) - license_year) AS number_of_years_licensed, ";
-                query += "(CASE  WHEN d_alias IN\n" +
-                         "(SELECT d_alias FROM\n" +
-                         "((SELECT d_alias\n" +
-                         "FROM Review\n" +
-                         "WHERE p_alias IN (\n" +
-                         "    (SELECT p_alias_a\n" +
-                         "    FROM Friend INNER JOIN PatientData\n" +
-                         "    ON (PatientData.p_alias = Friend.p_alias_a ) \n" +
-                         "    WHERE Friend.p_alias_b = \"?(current_user_alias)\" AND flag = TRUE)\n" +
-                         "))\n" +
-                         "UNION  \n" +
-                         "(SELECT d_alias\n" +
-                         "FROM Review\n" +
-                         "WHERE p_alias IN (\n" +
-                         "    (SELECT p_alias_b\n" +
-                         "    FROM Friend INNER JOIN PatientData\n" +
-                         "    ON (PatientData.p_alias = Friend.p_alias_b ) \n" +
-                         "    WHERE Friend.p_alias_a = \"?(current_user_alias)\" AND flag = TRUE)\n" +
-                         "))) AS temp)\n" +
-                         "         THEN TRUE ELSE FALSE END \n" +
+                String query = "SELECT user_alias,d_alias, first_name ,last_name, gender, AVG(rating) , COUNT(distinct review_id), (YEAR(curdate()) - license_year) AS number_of_years_licensed ";
+                query += ",(CASE  WHEN d_alias IN " +
+                         "(SELECT d_alias FROM " +
+                         "((SELECT d_alias " +
+                         "FROM Review " +
+                         "WHERE p_alias IN ( " +
+                         "    (SELECT p_alias_a " +
+                         "    FROM Friend INNER JOIN PatientData " +
+                         "    ON (PatientData.p_alias = Friend.p_alias_a ) " +
+                         "    WHERE Friend.p_alias_b = ? AND flag = TRUE) " +
+                         ")) " +
+                         "UNION   " +
+                         "(SELECT d_alias " +
+                         "FROM Review " +
+                         "WHERE p_alias IN ( " +
+                         "    (SELECT p_alias_b " +
+                         "    FROM Friend INNER JOIN PatientData " +
+                         "    ON (PatientData.p_alias = Friend.p_alias_b )  " +
+                         "    WHERE Friend.p_alias_a = ? AND flag = TRUE) " +
+                         "))) AS temp) " +
+                         "         THEN TRUE ELSE FALSE END  " +
                          ") AS friend_reviewed";
                 query += " FROM DoctorData NATURAL JOIN Review";
                 query += " WHERE TRUE ";
@@ -163,7 +290,7 @@ public class ProjectDBAO {
                 if (licence_year != -1){
                     query += " AND (YEAR(curdate()) - license_year) > ?";
                 }
-                
+
                 if (comments.length() != 0){
                     query += " AND LCASE(comments) like LCASE('%?%')";
                 }
@@ -181,6 +308,10 @@ public class ProjectDBAO {
                 pstmt = con.prepareStatement(query);
                 
                 int num = 0;
+                
+                pstmt.setString(++num, p_alias);
+                pstmt.setString(++num, p_alias);
+                
                 if (first_name.length() != 0){
                     pstmt.setString(++num, first_name);
                 }
@@ -213,15 +344,12 @@ public class ProjectDBAO {
                     pstmt.setString(++num, specialization);
                 }
                 
-                query += " GROUP BY (d_alias)";
-                
                 if (rating != -1){
                     pstmt.setInt(++num, rating);
                 }
                 
                  ResultSet resultSet;
                  resultSet = pstmt.executeQuery();
-                 
                  ret = new ArrayList<Doctor>();
                  while (resultSet.next()){
                      Doctor e = new Doctor(

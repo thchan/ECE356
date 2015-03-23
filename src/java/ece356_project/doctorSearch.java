@@ -41,11 +41,17 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String last_name = request.getParameter("last_name");
             String address = request.getParameter("address");
             String gender = request.getParameter("gender");
-            int license_year = Integer.parseInt(request.getParameter("license_year"));
-            String comments = request.getParameter("comments");
-            int rating = Integer.parseInt(request.getParameter("rating"));
+            int license_year = -1;
+            try{
+                   license_year = Integer.parseInt(request.getParameter("licensed"));
+            }catch(Exception e){}
+            String comments = request.getParameter("keyword");
+            int rating = -1;
+            try{
+                   license_year = Integer.parseInt(request.getParameter("rating"));
+            }catch(Exception e){}
             String specialization = request.getParameter("spec");
-            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization);
+            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization,"pat_bob");
             request.setAttribute("patientList", ret);
             url="/doctorSearchSuccess.jsp";
         }catch(Exception e){

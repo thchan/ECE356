@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,13 +31,46 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-			// TODO Add user sign in here
+        String url;
+        try {
+
+            String username = request.getParameter("user_alias");
+            String password = request.getParameter("password");
+             
+            if (username.length() != 0 && password.length() != 0)
+            {
+            
+                Login user;
+                user = ProjectDBAO.patientLogin(username,password);
+                
+                if (user == null){
+                    user = ProjectDBAO.doctorLogin(username,password);
+                }
+                
+                if (user != null){
+
+                    request.setAttribute("user", user);
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+
+                    if (user.is_Patient)
+                    {
+                        url="/patientSearch.jsp";
+                    }else{
+                        url="/viewDoctorProfile";
+                    }
+                }else{
+                    url ="/index.jsp";
+                }
+            }else{
+                url ="/index.jsp";
+            }
+            
         }catch(Exception e){
-			// TODO Need to redirect to an error page here
-		}
-		finally
-		{}
+                request.setAttribute("errmsg", e);
+		url ="/error.jsp";
+	}finally{}
+            getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
