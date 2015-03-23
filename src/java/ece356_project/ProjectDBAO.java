@@ -7,35 +7,31 @@ import javax.sql.DataSource;
 
 public class ProjectDBAO {
 
+    public static final String url = "jdbc:mysql://eceweb.uwaterloo.ca:3306/";
+    public static final String user = "user_stmaraj";
+    public static final String pwd = "user_stmaraj";
+    
 	public static Connection getConnection()
-		throws ClassNotFoundException, SQLException, NamingException {
+		throws ClassNotFoundException, SQLException{
                 
-                Connection con = null;
-            
-                try {
-                    InitialContext cxt = new InitialContext();
-                
-                    if (cxt == null){
-			throw new RuntimeException("Unable to create naming context!");
-                    }	
-                   
-                    Context dbContext = (Context)cxt.lookup("java:comp/env");
-                    DataSource ds = (DataSource)dbContext.lookup("jdbc/myDatasource");
-		
-                    if (ds == null){
-                      throw new RuntimeException("Data source not found");
-                    }
-                    
-                    con = ds.getConnection();
-        
-                } finally {}
-                
-            return con;
+                Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, user, pwd);
+        Statement stmt = null;
+        try {
+            con.createStatement();
+            stmt = con.createStatement();
+            stmt.execute("USE ece356db_t39chan;");
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return con;
 	}
 	
 
 	public static ArrayList<Patient> searchPatients(String user_alias, String province, String city)
-            throws ClassNotFoundException, SQLException, NamingException {
+            throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -109,7 +105,7 @@ public class ProjectDBAO {
         
         
         public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating)
-            throws ClassNotFoundException, SQLException, NamingException {
+            throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -232,7 +228,7 @@ public class ProjectDBAO {
         
         
         public static Doctor getDoctorProfile(String d_alias)
-            throws ClassNotFoundException, SQLException, NamingException {
+            throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -275,6 +271,49 @@ public class ProjectDBAO {
                 }
             }
         }
+        
+        public static ArrayList<Specialization> getSpecializations(String d_alias)
+            throws ClassNotFoundException, SQLException {
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ArrayList<Specialization> ret = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT spec_id,spec_name ";
+                query += " FROM Specialization";
+                query += " WHERE spec_id in (SELECT spec_id FROM SpecializesIn WHERE d_alias = ?) ";
+                
+                pstmt = con.prepareStatement(query);
+                
+                pstmt.setString(1, d_alias);
+                
+                 ResultSet resultSet;
+                 resultSet = pstmt.executeQuery();
+                 
+                 ret = new ArrayList<Specialization>();
+                 while (resultSet.next()){
+                     Specialization e = new Specialization(
+                             resultSet.getInt("spec_id"),
+                             resultSet.getString("spec_name"));
+;
+                     ret.add(e);
+                }
+                return ret;
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
 }
 		
 	
