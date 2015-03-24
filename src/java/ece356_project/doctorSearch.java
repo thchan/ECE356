@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,7 +37,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         response.setContentType("text/html;charset=UTF-8");
         String url;
         try {
-			// TODO Add user sign in here
+            
+            Login user;
+            HttpSession session = request.getSession();
+            user = (Login) session.getAttribute("user");
+            
             String first_name = request.getParameter("first_name");
             String last_name = request.getParameter("last_name");
             String address = request.getParameter("address");
@@ -53,11 +58,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String specialization = request.getParameter("spec");
             if (request.getParameter("reviewed") == null)
             {
-                request.setAttribute("friend_reviewed", true);
-            }else{
                 request.setAttribute("friend_reviewed", false);
+            }else{
+                request.setAttribute("friend_reviewed", true);
             }
-            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization,"pat_bob");
+            ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization,user.other_alias);
             request.setAttribute("doctorList", ret);
             url="/doctorSearchSuccess.jsp";
         }catch(Exception e){

@@ -410,9 +410,9 @@ public class ProjectDBAO {
                                  resultSet.getString("last_name"),
                                  resultSet.getString("email_address"),
                                  resultSet.getString("gender"),
+                                 resultSet.getInt("number_of_years_licensed"),
                                  resultSet.getInt("AVG(rating)"),
                                  resultSet.getInt("COUNT(distinct review_id)"),
-                                 resultSet.getInt("number_of_years_licensed"),
                                  false);
                  }
                 return ret;
