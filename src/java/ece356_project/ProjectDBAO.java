@@ -408,8 +408,8 @@ public class ProjectDBAO {
                                  d_alias,
                                  resultSet.getString("first_name"),
                                  resultSet.getString("last_name"),
-                                 resultSet.getString("gender"),
                                  resultSet.getString("email_address"),
+                                 resultSet.getString("gender"),
                                  resultSet.getInt("AVG(rating)"),
                                  resultSet.getInt("COUNT(distinct review_id)"),
                                  resultSet.getInt("number_of_years_licensed"),
@@ -560,7 +560,7 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "SELECT p_alias, rating, date, comments ";
+                String query = "SELECT review_id, p_alias, rating, date, comments ";
                 query += " FROM Review ";
                 query += "WHERE d_alias = ?";
                 query += " ORDER BY (date)";

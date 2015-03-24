@@ -35,7 +35,7 @@
             <h1>Profile</h1>
             <p>Name: <%= doc.getName()%></p>
             <p>Gender: <%= doc.gender%></p>
-            <p>Work Address: <% if(addrList != null) {for ( WorkAddress addr : addrList) {%><%= addr.getAddress()%> <%}}%></p>
+            <p>Work Address: <% if(addrList != null) {for ( WorkAddress addr : addrList) {%><%= addr.getAddress()%>  ;  <%}}%></p>
             <p>Specialization: <% if(specList != null) { for ( Specialization spec : specList) {%><%= spec.spec_name%>, <%}}%></p>
             <p>Email: <%= doc.email_address%></p>
             <p>Number Of Years Licensed: <%= doc.license_year%></p>
@@ -48,7 +48,7 @@
                 for ( Review rev : reviewList) {
             %>
             <tr>
-                <td><a href="viewReview.jsp?id=<%= rev.review_id%>">View<%= rev.review_id%></a></td>
+                <td><a href="viewReview.jsp?id=<%= rev.review_id%>"><%= rev.review_id%></a></td>
                 <td><%= rev.p_alias%></td>
                 <td><%= rev.rating%></td>
             </tr>
