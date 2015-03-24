@@ -36,7 +36,7 @@ if(  user.is_Patient == false) {
             <tr>
                 <td><%= pa.p_alias%></td>
                 <td><%= pa.email%></td>                
-                <td><a href="addFriend.jsp?alias=<%= pa.p_alias%>">Add</a></td>
+                <td><a href="confirmFriend?alias=<%= pa.p_alias%>">Add</a></td>
             </tr>
             <%
                 }

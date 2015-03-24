@@ -38,7 +38,7 @@ if(  user.is_Patient == false) {
                 <td><%= pa.home_address_city%>, <%= pa.home_address_province %></td>
                 <td><%= pa.number_of_reviews%></td>
                 <td><%= pa.last_review_date%></td>
-                <td><a href="addFriend.jsp?alias=<%= pa.p_alias%>">Add</a></td>
+                <td><a href="addFriend?alias=<%= pa.p_alias%>">Add</a></td>
             </tr>
             <%
                 }

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : confirmFriendSuccess
-    Created on : 24-Mar-2015, 5:18:29 PM
+    Document   : alreadyFriends
+    Created on : 24-Mar-2015, 6:39:17 PM
     Author     : Sean
 --%>
 
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Friendship Successful</title>
+        <title>Add Friend Error</title>
     </head>
     <body>
-        <h1>You are now friends!</h1>
+        <h1>You are already friends with this user.</h1>
     </body>
 </html>

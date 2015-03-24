@@ -819,7 +819,6 @@ public class ProjectDBAO {
             }
         }
         
-        
         public static void confirmFriend(String user_alias, String friend)
             throws ClassNotFoundException, SQLException, NamingException{
 		
@@ -854,6 +853,164 @@ public class ProjectDBAO {
                 }
             }
         }   
+        
+        public static boolean areFriends(String user_alias, String friend)
+            throws ClassNotFoundException, SQLException, NamingException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            
+            try{
+                con = getConnection();
+                
+                boolean ret = false;
+                
+                /* Build SQL query */
+                String query = "SELECT Friend.flag ";
+                query += "FROM Friend ";
+                query += "WHERE((Friend.p_alias_a = ? AND Friend.p_alias_b = ?) ";
+                query += "OR (Friend.p_alias_a = ? AND Friend.p_alias_b = ?)) ";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, friend);
+                pstmt.setString(3, friend);
+                pstmt.setString(4, user_alias);
+                 
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                
+                if (resultSet.next())
+                {
+                    ret = resultSet.getBoolean("flag");
+                }
+                
+                return ret;
+             
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+        public static boolean yourRequestExists(String user_alias, String friend)
+            throws ClassNotFoundException, SQLException, NamingException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            
+            try{
+                con = getConnection();
+                
+                boolean ret = false;
+                
+                /* Build SQL query */
+                String query = "SELECT * ";
+                query += "FROM Friend ";
+                query += "WHERE (Friend.p_alias_a = ? AND Friend.p_alias_b = ? AND Friend.flag = false)";
+
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, friend);
+                 
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                
+                if (resultSet.next())
+                {
+                    ret = true;
+                }
+                
+                return ret;
+             
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+        public static boolean theirRequestExists(String user_alias, String friend)
+            throws ClassNotFoundException, SQLException, NamingException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            
+            try{
+                con = getConnection();
+                
+                boolean ret = false;
+                
+                /* Build SQL query */
+                String query = "SELECT * ";
+                query += "FROM Friend ";
+                query += "WHERE (Friend.p_alias_a = ? AND Friend.p_alias_b = ? AND Friend.flag = false) ";
+
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, friend);
+                pstmt.setString(2, user_alias);
+                 
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                
+                if (resultSet.next())
+                {
+                    ret = true;
+                }
+                
+                return ret;
+             
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+        public static void sendFriendRequest(String user_alias, String friend)
+            throws ClassNotFoundException, SQLException, NamingException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "INSERT INTO Friend VALUES (?, ?, false)";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, friend);
+     
+                pstmt.executeUpdate();
+
+             
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+        
 }
 		
 	

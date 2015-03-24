@@ -1,6 +1,6 @@
 <%-- 
-    Document   : confirmFriendSuccess
-    Created on : 24-Mar-2015, 5:18:29 PM
+    Document   : requestAlreadySent
+    Created on : 24-Mar-2015, 7:28:01 PM
     Author     : Sean
 --%>
 
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Friendship Successful</title>
+        <title>Request Already Sent</title>
     </head>
     <body>
-        <h1>You are now friends!</h1>
+        <h1>You have already sent a request to this user.</h1>
     </body>
 </html>
