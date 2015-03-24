@@ -629,6 +629,58 @@ public class ProjectDBAO {
                 }
             }
         }
+            
+            
+            
+            
+            
+            
+            
+        public static ArrayList<FriendRequest> viewFriendRequests(String user_alias)
+            throws ClassNotFoundException, SQLException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            ArrayList<FriendRequest> ret = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT Friend.p_alias_b AS requestor, PatientData.email_address ";
+                query += "FROM Friend INNER JOIN PatientData ";
+                query += "ON (Friend.p_alias_b = PatientData.user_alias) ";
+                query += "WHERE (Friend.p_alias_a = ? AND Friend.flag = false) ";
+                query += "UNION ";
+                query += "SELECT Friend.p_alias_a AS requestor, PatientData.email_address ";
+                query += "FROM Friend INNER JOIN PatientData ";
+                query += "ON (Friend.p_alias_a = PatientData.user_alias) ";
+                query += "WHERE (Friend.p_alias_b = ? AND Friend.flag = false)";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, user_alias);
+                
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                 
+                ret = new ArrayList<FriendRequest>();
+                while (resultSet.next()){
+                    FriendRequest e = new FriendRequest(resultSet.getString("requestor"), resultSet.getString("email_address"));
+                    ret.add(e);
+                }
+                 
+                return ret;
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }   
 }
 		
 	
