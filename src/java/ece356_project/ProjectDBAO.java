@@ -596,6 +596,50 @@ public class ProjectDBAO {
             }
         }
      
+            public static Review getReview(int review_id)
+                   throws ClassNotFoundException, SQLException{
+
+                   Connection con = null;
+                   PreparedStatement pstmt = null;
+                   Review ret = null;
+
+                   try{
+                       con = getConnection();
+
+                       /* Build SQL query */
+                       String query = "SELECT d_alias,p_alias, rating, date, comments ";
+                       query += " FROM Review ";
+                       query += "WHERE review_id = ?";
+
+                       pstmt = con.prepareStatement(query);
+
+                       pstmt.setInt(1, review_id);
+
+                        ResultSet resultSet;
+                        resultSet = pstmt.executeQuery();
+
+                        if (resultSet.next()){
+                            ret = new Review(
+                                    review_id,
+                                    resultSet.getString("p_alias"),
+                                    resultSet.getString("d_alias"),
+                                    resultSet.getInt("rating"),
+                                    resultSet.getDate("date"),
+                                    resultSet.getString("comments"));
+                       }
+
+                       return ret;
+                   } finally {
+                       if (pstmt != null) {
+                           pstmt.close();
+                       }
+
+                       if (con != null) {
+                           con.close();
+                       }
+                   }
+               }       
+            
             public static void writeReview(String p_alias, String d_alias, int rating, Date date, String comments)
             throws ClassNotFoundException, SQLException{
 		
