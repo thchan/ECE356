@@ -47,14 +47,14 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             String address = request.getParameter("address");
             String gender = request.getParameter("gender");
             int license_year = -1;
-            try{
+            if (request.getParameter("licensed").length() != 0){
                    license_year = Integer.parseInt(request.getParameter("licensed"));
-            }catch(Exception e){}
+            }
             String comments = request.getParameter("keyword");
-            int rating = -1;
-            try{
-                   license_year = Integer.parseInt(request.getParameter("rating"));
-            }catch(Exception e){}
+            double rating = -1;
+            if (request.getParameter("rating").length() != 0){
+                   rating = Double.parseDouble(request.getParameter("rating"));
+            }
             String specialization = request.getParameter("spec");
             if (request.getParameter("reviewed") == null)
             {
