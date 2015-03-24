@@ -12,8 +12,8 @@ public class ProjectDBAO {
     public static final String pwd = "user_stmaraj";
     
 	public static Connection getConnection()
-		throws ClassNotFoundException, SQLException{
-                
+		throws ClassNotFoundException, SQLException, NamingException{
+         /*       
                 Class.forName("com.mysql.jdbc.Driver");
         Connection con = DriverManager.getConnection(url, user, pwd);
         Statement stmt = null;
@@ -29,12 +29,27 @@ public class ProjectDBAO {
             if (stmt != null) {
                 stmt.close();
             }
+        }*/
+            
+        InitialContext cxt = new InitialContext();
+        if (cxt==null){
+            throw new RuntimeException("Unable to create naming context!");
         }
+            
+        Context dbContext = (Context) cxt.lookup("java:comp/env");
+        DataSource ds = (DataSource) dbContext.lookup("jdbc/myDatasource");
+        
+        if (ds == null) {
+            throw new RuntimeException("Data source not found!");
+        }
+        
+        Connection con = ds.getConnection();
+        
         return con;
 	}
 	
         public static Login doctorLogin(String user_alias, String password)
-                throws ClassNotFoundException, SQLException{
+                throws ClassNotFoundException, SQLException, NamingException{
             Connection con = null;
             PreparedStatement pstmt = null;
             Login ret = null;
@@ -77,7 +92,7 @@ public class ProjectDBAO {
         }
         
         public static Login patientLogin(String user_alias, String password)
-                throws ClassNotFoundException, SQLException{
+                throws ClassNotFoundException, SQLException, NamingException{
             Connection con = null;
             PreparedStatement pstmt = null;
             Login ret = null;
@@ -122,7 +137,7 @@ public class ProjectDBAO {
         }
         
          public static String getSalt(String user_alias)
-                throws ClassNotFoundException, SQLException{
+                throws ClassNotFoundException, SQLException, NamingException{
                 Connection con = null;
                 PreparedStatement pstmt = null;
                 String ret;
@@ -158,7 +173,7 @@ public class ProjectDBAO {
          }
         
 	public static ArrayList<Patient> searchPatients(String user_alias, String province, String city)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -232,7 +247,7 @@ public class ProjectDBAO {
         
         
         public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating, String specialization, String p_alias)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -380,7 +395,7 @@ public class ProjectDBAO {
         
         
         public static Doctor getDoctorProfile(String d_alias)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -428,7 +443,7 @@ public class ProjectDBAO {
         }
         
         public static ArrayList<Specialization> getSpecializations(String d_alias)
-            throws ClassNotFoundException, SQLException {
+            throws ClassNotFoundException, SQLException, NamingException {
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -469,7 +484,7 @@ public class ProjectDBAO {
         }
         
      public static ArrayList<String> getAllSpecializations()
-            throws ClassNotFoundException, SQLException {
+            throws ClassNotFoundException, SQLException, NamingException {
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -505,7 +520,7 @@ public class ProjectDBAO {
         }
         
             public static ArrayList<WorkAddress> getWorkAddress(String d_alias) 
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
                 Connection con = null;
                 PreparedStatement pstmt = null;
                 ArrayList<WorkAddress> ret = null;
@@ -550,7 +565,7 @@ public class ProjectDBAO {
                 
             
             public static ArrayList<Review> getReviews(String d_alias)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -597,7 +612,7 @@ public class ProjectDBAO {
         }
      
             public static Review getReview(int review_id)
-                   throws ClassNotFoundException, SQLException{
+                   throws ClassNotFoundException, SQLException, NamingException{
 
                    Connection con = null;
                    PreparedStatement pstmt = null;
@@ -641,7 +656,7 @@ public class ProjectDBAO {
                }       
             
             public static int writeReview(String p_alias, String d_alias, int rating, String comments)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -680,7 +695,7 @@ public class ProjectDBAO {
             
             
         public static ArrayList<FriendRequest> viewFriendRequests(String user_alias)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -726,7 +741,7 @@ public class ProjectDBAO {
         }   
         
         public static int nextReview(int review_id)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
@@ -766,7 +781,7 @@ public class ProjectDBAO {
         }
         
         public static int prevReview(int review_id)
-            throws ClassNotFoundException, SQLException{
+            throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
             PreparedStatement pstmt = null;
