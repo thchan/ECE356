@@ -39,7 +39,11 @@ if(  user.is_Patient == false) {
             <tr>
                 <td><%= doc.getName()%></td>
                 <td><%= doc.gender%></td>
+                <% if(doc.number_of_reviews == 0) {%>
+                <td>--</td>   
+                <%}else{%>
                 <td><%= doc.average_rating%></td>
+                <%}%>
                 <td><%= doc.number_of_reviews%></td>
                 <td><a href="viewDoctorProfile?alias=<%= doc.d_alias%>">View</a></td>
             </tr>
