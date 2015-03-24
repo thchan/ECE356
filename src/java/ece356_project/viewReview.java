@@ -42,8 +42,12 @@ public class viewReview extends HttpServlet {
             int review_id = Integer.parseInt(request.getParameter("id"));
             Review ret = ProjectDBAO.getReview( review_id );
             Doctor retDoc = ProjectDBAO.getDoctorProfile( ret.d_alias );
+            int retNext = ProjectDBAO.nextReview( ret.review_id); 
+            int retPrev = ProjectDBAO.prevReview( ret.review_id);
             request.setAttribute("review", ret);
             request.setAttribute("doctor", retDoc);
+            request.setAttribute("next", retNext);
+            request.setAttribute("prev", retPrev);
             url = ("/viewReviewSuccess.jsp");
         }catch(Exception e){
             request.setAttribute("errmsg", e);

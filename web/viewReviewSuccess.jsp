@@ -19,6 +19,10 @@
         </head>
              <% Review rev = (Review)request.getAttribute("review");%> 
              <% Doctor doc = (Doctor)request.getAttribute("doctor");%> 
+             <% String stringNext = String.valueOf(request.getAttribute("next"));%>
+             <% String stringPrev = String.valueOf(request.getAttribute("prev"));%>
+             <% int next =  Integer.parseInt(stringNext);%> 
+             <% int prev = Integer.parseInt(stringPrev);%> 
         <body>
            
             <p>Doctor Name: <%= doc.getName() %></p>
@@ -26,6 +30,12 @@
             <p>Rating: <%= rev.rating%>/5</p>
             <p>Comments:</p>
             <p><%= rev.comments%></p>
+            <br><br>
+            <% if( next != 0 ) { %>
+            <p><a href="viewReview?id=<%=next%>">Next Review</a></p>
+            <% } if(prev != 0) { %>
+            <p><a href="viewReview?id=<%=prev%>">Previous Review</a></p>
+            <%}%>
         </body>
     </html>
 </f:view>
