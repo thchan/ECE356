@@ -54,7 +54,7 @@ if(  user.is_Patient == false) {
                     %>
                 </select><br/>
                 Number of years licensed: <input type="text" name="licensed" size="20"><br/>
-                Minimum acceptable star rating: <input type="number" min="0" max="5" step ="1" name="rating" size="20"><br/>
+                Minimum acceptable star rating: <input type="number" min="0" max="5" step ="0.5" name="rating" size="20"><br/>
                 Reviewed by friend: <input type="checkbox" name="reviewed"><br/>
                 Review keyword: <input type="text" name="keyword" size="20"><br/>
             <p> <input type="submit" value="Submit">
