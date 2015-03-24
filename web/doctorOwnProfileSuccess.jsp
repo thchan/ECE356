@@ -48,7 +48,7 @@
                 for ( Review rev : reviewList) {
             %>
             <tr>
-                <td><a href="viewReview.jsp?id=<%= rev.review_id%>"><%= rev.review_id%></a></td>
+                <td><a href="viewReview?id=<%= rev.review_id%>"><%= rev.review_id%></a></td>
                 <td><%= rev.p_alias%></td>
                 <td><%= rev.rating%></td>
             </tr>

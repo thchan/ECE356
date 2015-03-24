@@ -651,7 +651,7 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "INSERT INTO Review (p_alias d_alias, rating, date, comments) ";
+                String query = "INSERT INTO Review (p_alias, d_alias, rating, date, comments) ";
                 query += " VALUES(?,?,?,CURDATE(),?)";
                 
                 pstmt = con.prepareStatement(query);
