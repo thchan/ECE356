@@ -246,7 +246,7 @@ public class ProjectDBAO {
         }
         
         
-        public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, int rating, String specialization, String p_alias)
+        public static ArrayList<Doctor> searchDoctors(String first_name, String last_name, String address, String gender, int licence_year, String comments, double rating, String specialization, String p_alias)
             throws ClassNotFoundException, SQLException, NamingException{
 		
             Connection con = null;
@@ -303,7 +303,7 @@ public class ProjectDBAO {
                 }
                 
                 if (licence_year != -1){
-                    query += " AND (YEAR(curdate()) - license_year) > ?";
+                    query += " AND (YEAR(curdate()) - license_year) >= ?";
                 }
 
                 if (comments.length() != 0){
@@ -317,7 +317,7 @@ public class ProjectDBAO {
                 query += " GROUP BY (d_alias)";
                 
                 if (rating != -1){
-                    query += " HAVING (AVG(rating) > ?";
+                    query += " HAVING (AVG(rating) >= ?)";
                 }
                 
                 pstmt = con.prepareStatement(query);
@@ -360,7 +360,7 @@ public class ProjectDBAO {
                 }
                 
                 if (rating != -1){
-                    pstmt.setInt(++num, rating);
+                    pstmt.setDouble(++num, rating);
                 }
                 
                  ResultSet resultSet;
@@ -375,7 +375,7 @@ public class ProjectDBAO {
                              resultSet.getString("gender"),
                              resultSet.getString("email_address"),
                              resultSet.getInt("number_of_years_licensed"),
-                             resultSet.getInt("AVG(rating)"),
+                             Math.round(resultSet.getDouble("AVG(rating)")*10.0)/10.0,
                              resultSet.getInt("COUNT(distinct review_id)"),
                              resultSet.getBoolean("friend_reviewed"));
                      ret.add(e);
@@ -426,7 +426,7 @@ public class ProjectDBAO {
                                  resultSet.getString("email_address"),
                                  resultSet.getString("gender"),
                                  resultSet.getInt("number_of_years_licensed"),
-                                 resultSet.getInt("AVG(rating)"),
+                                 Math.round(resultSet.getDouble("AVG(rating)")*10.0)/10.0,
                                  resultSet.getInt("COUNT(distinct review_id)"),
                                  false);
                  }
@@ -578,7 +578,8 @@ public class ProjectDBAO {
                 String query = "SELECT review_id, p_alias, rating, date, comments ";
                 query += " FROM Review ";
                 query += "WHERE d_alias = ?";
-                query += " ORDER BY (date)";
+                query += " ORDER BY (date) DESC, review_id DESC";
+                
                 
                 pstmt = con.prepareStatement(query);
                 

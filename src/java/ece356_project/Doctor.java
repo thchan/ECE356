@@ -11,11 +11,11 @@ public class Doctor{
     public String email_address;
     public String gender;
     public int license_year;
-    public int average_rating;
+    public double average_rating;
     public int number_of_reviews;
     public boolean is_friend_reviewed;
     
-    public Doctor(String user_alias, String d_alias, String first_name, String last_name, String email_address, String gender, int license_year, int average_rating, int number_of_reviews, boolean is_friend_reviewed)
+    public Doctor(String user_alias, String d_alias, String first_name, String last_name, String email_address, String gender, int license_year, double average_rating, int number_of_reviews, boolean is_friend_reviewed)
     {
 	this.user_alias = user_alias;
         this.d_alias = d_alias;
