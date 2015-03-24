@@ -57,7 +57,11 @@ public class addFriend extends HttpServlet {
                 
                 boolean theirRequestExists = ProjectDBAO.theirRequestExists(user.user_alias, p_alias);
                 boolean yourRequestExists = ProjectDBAO.yourRequestExists(user.user_alias, p_alias);
-                if (theirRequestExists)
+                if (user.user_alias == p_alias)
+                {
+                    url = ("/cannotBeFriendsWithSelf.jsp");
+                }
+                else if (theirRequestExists)
                 {
                     ProjectDBAO.confirmFriend(user.user_alias, p_alias);
                     url = ("/confirmFriendSuccess.jsp");
@@ -66,7 +70,7 @@ public class addFriend extends HttpServlet {
                 {
                     url = ("/requestAlreadySent.jsp");
                 }
-                else 
+                else
                 {
                     ProjectDBAO.sendFriendRequest(user.user_alias, p_alias);
                     url = ("/addFriendSuccess.jsp");
