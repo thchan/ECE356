@@ -819,6 +819,42 @@ public class ProjectDBAO {
                 }
             }
         }
+        
+        
+        public static void confirmFriend(String user_alias, String friend)
+            throws ClassNotFoundException, SQLException, NamingException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                
+                String query = "UPDATE Friend SET Friend.flag = true ";
+                query += "WHERE (Friend.p_alias_a = ? AND Friend.p_alias_b = ? AND Friend.flag = false) ";
+                query += "OR (Friend.p_alias_a = ? AND Friend.p_alias_b = ? AND Friend.flag = false);";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1, user_alias);
+                pstmt.setString(2, friend);
+                pstmt.setString(3, friend);
+                pstmt.setString(4, user_alias);
+                 
+                int result;
+                result = pstmt.executeUpdate();
+             
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }   
 }
 		
 	
