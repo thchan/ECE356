@@ -51,6 +51,12 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                    license_year = Integer.parseInt(request.getParameter("rating"));
             }catch(Exception e){}
             String specialization = request.getParameter("spec");
+            if (request.getParameter("reviewed") == null)
+            {
+                request.setAttribute("friend_reviewed", true);
+            }else{
+                request.setAttribute("friend_reviewed", false);
+            }
             ArrayList ret = ProjectDBAO.searchDoctors(first_name, last_name, address, gender, license_year, comments, rating, specialization,"pat_bob");
             request.setAttribute("doctorList", ret);
             url="/doctorSearchSuccess.jsp";

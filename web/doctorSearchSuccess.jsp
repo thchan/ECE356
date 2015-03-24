@@ -19,11 +19,14 @@
         </head>
         <%! ArrayList<Doctor> doctorList;%>
         <% doctorList = (ArrayList<Doctor>) request.getAttribute("doctorList");%>
+        <% Boolean friend_reviewed; %> 
+        <% friend_reviewed = (Boolean) request.getAttribute("friend_reviewed");%>
         <body>
             <table border=1><tr><th>Name</th><th>Gender</th><th>Average review score</th><th>Number of Reviews</th><th>View Profile</th></tr>
             <%
             if( doctorList != null) {
                 for (Doctor doc : doctorList) {
+                    if (friend_reviewed == doc.is_friend_reviewed){
             %>
             <tr>
                 <td><%= doc.getName()%></td>
@@ -32,7 +35,8 @@
                 <td><%= doc.number_of_reviews%></td>
                 <td><a href="doctorProfileSuccess.jsp?alias=<%= doc.d_alias%>">View</a></td>
             </tr>
-            <%
+            <%      
+                    }
                 }
             }
             %>
