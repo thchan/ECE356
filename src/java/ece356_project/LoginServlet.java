@@ -55,9 +55,9 @@ public class LoginServlet extends HttpServlet {
 
                     if (user.is_Patient)
                     {
-                        url="/patientSearch.jsp";
+                        url="/patientMenu.jsp";
                     }else{
-                        url="/viewDoctorProfile";
+                        url="/doctorMenu.jsp";
                     }
                 }else{
                     url ="/index.jsp";
