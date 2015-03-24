@@ -25,7 +25,7 @@ if(  user.is_Patient == true) {
             <title>Doctor Menu</title>
         </head>
         <body>
-            <li><a href="doctorViewProfileSuccess.jsp?alias=<%=user.user_alias%>">My Profile</a></li>
+            <li><a href="viewDoctorProfile?alias=<%=user.user_alias%>">My Profile</a></li>
         </body>
     </html>
 </f:view>

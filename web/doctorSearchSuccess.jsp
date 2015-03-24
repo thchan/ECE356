@@ -33,7 +33,7 @@
                 <td><%= doc.gender%></td>
                 <td><%= doc.average_rating%></td>
                 <td><%= doc.number_of_reviews%></td>
-                <td><a href="doctorProfileSuccess.jsp?alias=<%= doc.d_alias%>">View</a></td>
+                <td><a href="viewDoctorProfile?alias=<%= doc.d_alias%>">View</a></td>
             </tr>
             <%      
                     }

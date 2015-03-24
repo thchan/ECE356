@@ -1,5 +1,5 @@
 <%-- 
-    Document   : doctorViewProfileSuccess
+    Document   : doctorProfileSuccess
     Created on : 22-Mar-2015, 5:49:45 PM
     Author     : Thomas
 --%>

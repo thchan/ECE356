@@ -7,11 +7,13 @@ package ece356_project;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,18 +34,35 @@ public class viewDoctorProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet viewDoctorProfile</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet viewDoctorProfile at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setContentType("text/html;charset=UTF-8");
+        String url;
+        try {
+			// TODO Add user sign in here
+            Login user;
+            String d_alias = request.getParameter("alias");
+            
+            Doctor retDoc = ProjectDBAO.getDoctorProfile( d_alias );
+            ArrayList<Specialization> retSpec = ProjectDBAO.getSpecializations( d_alias );
+            ArrayList<WorkAddress> retAddr = ProjectDBAO.getWorkAddress( d_alias );
+            ArrayList<Review> retRev = ProjectDBAO.getReviews( d_alias );
+            
+            request.setAttribute("doctor", retDoc);
+            request.setAttribute("specs", retSpec);
+            request.setAttribute("addrs", retAddr);
+            request.setAttribute("reviews", retRev);
+            
+            HttpSession session = request.getSession();
+            user = (Login)session.getAttribute("user");
+            if(  user.is_Patient == true) {
+                url = ("/doctorProfileSuccess.jsp");
+            } else {
+                url = ("/doctorOwnProfileSuccess.jsp");
+            }
+        }catch(Exception e){
+            request.setAttribute("errmsg", e);
+            url = "/error.jsp";
         }
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

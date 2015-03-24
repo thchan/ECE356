@@ -15,4 +15,9 @@ public class WorkAddress {
 		this.province = province;
 		this.postal_code = postal_code;
 	}
+        public String getAddress()
+        {
+                String ret = this.address + ", " + this.city + ", " + this.province + ", " + this.postal_code;
+                return ret;
+        }
 }

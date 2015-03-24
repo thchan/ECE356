@@ -1,5 +1,5 @@
 <%-- 
-    Document   : doctorViewProfileSuccess
+    Document   : doctorOwnProfileSuccess
     Created on : 22-Mar-2015, 5:49:45 PM
     Author     : Thomas
 --%>
@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="ece356_project.Review"%>
 <%@page import="ece356_project.Doctor"%>
+<%@page import="ece356_project.Specialization"%>
+<%@page import="ece356_project.WorkAddress"%>
 <%@page import="java.util.ArrayList"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -15,12 +17,17 @@
 <f:view>
     <html>
         <head>
+        <a href="doctorOwnProfileSuccess.jsp"></a>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>My profile</title>
         </head>
         <% Doctor doc = (Doctor)request.getAttribute("doctor");%>
         <%! ArrayList<Review> reviewList;%>
-        <% reviewList = (ArrayList<Review>) request.getAttribute("reviewList");%>
+        <%! ArrayList<Specialization> specList;%>
+        <%! ArrayList<WorkAddress> addrList;%>
+        <% reviewList = (ArrayList<Review>) request.getAttribute("reviews");%>
+        <% specList = (ArrayList<Specialization>) request.getAttribute("specs");%>
+        <% addrList = (ArrayList<WorkAddress>) request.getAttribute("addrs");%>
         <%
             if( doc != null ) {
         %>
@@ -28,8 +35,8 @@
             <h1>Profile</h1>
             <p>Name: <%= doc.getName()%></p>
             <p>Gender: <%= doc.gender%></p>
-            <p>Work Address: <%= doc.getName()%></p>
-            <p>Specialization: <%= doc.getName()%></p>
+            <p>Work Address: <% if(addrList != null) {for ( WorkAddress addr : addrList) {%><%= addr.getAddress()%> <%}}%></p>
+            <p>Specialization: <% if(specList != null) { for ( Specialization spec : specList) {%><%= spec.spec_name%>, <%}}%></p>
             <p>Email: <%= doc.email_address%></p>
             <p>Number Of Years Licensed: <%= doc.license_year%></p>
             <p>Average Rating: <%= doc.average_rating%></p>

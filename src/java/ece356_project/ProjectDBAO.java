@@ -514,7 +514,7 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "SELECT location_id,address, city, province, country, postal_code ";
+                String query = "SELECT location_id,address, city, province, postal_code ";
                 query += " FROM WorkAddress ";
                 query += "WHERE location_id in (SELECT location_id FROM WorksAt WHERE d_alias = ?) ";
                 
@@ -561,9 +561,8 @@ public class ProjectDBAO {
                 
                 /* Build SQL query */
                 String query = "SELECT p_alias, rating, date, comments ";
-                query += " FROM Review";
-                query += "WHERE TRUE ";
-                query += " AND d_alias = ?";
+                query += " FROM Review ";
+                query += "WHERE d_alias = ?";
                 query += " ORDER BY (date)";
                 
                 pstmt = con.prepareStatement(query);

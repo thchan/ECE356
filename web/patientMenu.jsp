@@ -13,10 +13,10 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
+            <title>Patient Menu</title>
         </head>
         <body>
-            <li><a href="doctorSearch.jsp">Doctor Search</a></li>
+            <li><a href="doctorSearchInit">Doctor Search</a></li>
             <li><a href="patientSearch.jsp">Patient Search</a></li>
             <li><a href="patientSearch.jsp">Friend Requests</a></li>
         </body>
