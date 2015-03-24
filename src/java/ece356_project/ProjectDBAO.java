@@ -359,9 +359,9 @@ public class ProjectDBAO {
                              resultSet.getString("last_name"),
                              resultSet.getString("gender"),
                              resultSet.getString("email_address"),
+                             resultSet.getInt("number_of_years_licensed"),
                              resultSet.getInt("AVG(rating)"),
                              resultSet.getInt("COUNT(distinct review_id)"),
-                             resultSet.getInt("number_of_years_licensed"),
                              resultSet.getBoolean("friend_reviewed"));
                      ret.add(e);
                 }
@@ -640,7 +640,7 @@ public class ProjectDBAO {
                    }
                }       
             
-            public static void writeReview(String p_alias, String d_alias, int rating, Date date, String comments)
+            public static int writeReview(String p_alias, String d_alias, int rating, String comments)
             throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
@@ -661,8 +661,7 @@ public class ProjectDBAO {
                 pstmt.setInt(3, rating);
                 pstmt.setString(4, comments);
                 
-                 ResultSet resultSet;
-                 resultSet = pstmt.executeQuery();
+                return pstmt.executeUpdate();
             } finally {
                 if (pstmt != null) {
                     pstmt.close();
