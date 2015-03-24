@@ -724,6 +724,85 @@ public class ProjectDBAO {
                 }
             }
         }   
+        
+        public static int nextReview(int review_id)
+            throws ClassNotFoundException, SQLException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            int ret = 0;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT MIN(review_id) ";
+                query += " FROM Review ";
+                query += " WHERE review_id > ? ";
+                query += " AND d_alias IN (SELECT d_alias FROM Review WHERE review_id = ?) ";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setInt(1, review_id);
+                pstmt.setInt(2, review_id);
+                
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                 
+                
+                if (resultSet.next()){
+                    ret = resultSet.getInt("MIN(review_id)");
+                }
+                
+                return ret;
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
+        
+        public static int prevReview(int review_id)
+            throws ClassNotFoundException, SQLException{
+		
+            Connection con = null;
+            PreparedStatement pstmt = null;
+            int ret = 0;
+            
+            try{
+                con = getConnection();
+                
+                /* Build SQL query */
+                String query = "SELECT MAX(review_id) ";
+                query += " FROM Review ";
+                query += " WHERE review_id < ? ";
+                query += " AND d_alias IN (SELECT d_alias FROM Review WHERE review_id = ?) ";
+                
+                pstmt = con.prepareStatement(query);
+                pstmt.setInt(1, review_id);
+                pstmt.setInt(2, review_id);
+                
+                ResultSet resultSet;
+                resultSet = pstmt.executeQuery();
+                 
+                if (resultSet.next()){
+                    ret = resultSet.getInt("MAX(review_id)");
+                }
+                 
+                return ret;
+            } finally {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                    
+                if (con != null) {
+                    con.close();
+                }
+            }
+        }
 }
 		
 	
