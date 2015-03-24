@@ -26,7 +26,7 @@ if(  user.is_Patient == false) {
         <body>
             <li><a href="doctorSearchInit">Doctor Search</a></li>
             <li><a href="patientSearch.jsp">Patient Search</a></li>
-            <li><a href="patientSearch.jsp">Friend Requests</a></li>
+            <li><a href="friendRequests">Friend Requests</a></li>
             <li><a href="logout">Log out</a></li>
         </body>
     </html>
