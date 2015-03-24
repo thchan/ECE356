@@ -359,9 +359,9 @@ public class ProjectDBAO {
                              resultSet.getString("last_name"),
                              resultSet.getString("gender"),
                              resultSet.getString("email_address"),
+                             resultSet.getInt("number_of_years_licensed"),
                              resultSet.getInt("AVG(rating)"),
                              resultSet.getInt("COUNT(distinct review_id)"),
-                             resultSet.getInt("number_of_years_licensed"),
                              resultSet.getBoolean("friend_reviewed"));
                      ret.add(e);
                 }
@@ -410,9 +410,9 @@ public class ProjectDBAO {
                                  resultSet.getString("last_name"),
                                  resultSet.getString("email_address"),
                                  resultSet.getString("gender"),
+                                 resultSet.getInt("number_of_years_licensed"),
                                  resultSet.getInt("AVG(rating)"),
                                  resultSet.getInt("COUNT(distinct review_id)"),
-                                 resultSet.getInt("number_of_years_licensed"),
                                  false);
                  }
                 return ret;
@@ -596,7 +596,51 @@ public class ProjectDBAO {
             }
         }
      
-            public static void writeReview(String p_alias, String d_alias, int rating, Date date, String comments)
+            public static Review getReview(int review_id)
+                   throws ClassNotFoundException, SQLException{
+
+                   Connection con = null;
+                   PreparedStatement pstmt = null;
+                   Review ret = null;
+
+                   try{
+                       con = getConnection();
+
+                       /* Build SQL query */
+                       String query = "SELECT d_alias,p_alias, rating, date, comments ";
+                       query += " FROM Review ";
+                       query += "WHERE review_id = ?";
+
+                       pstmt = con.prepareStatement(query);
+
+                       pstmt.setInt(1, review_id);
+
+                        ResultSet resultSet;
+                        resultSet = pstmt.executeQuery();
+
+                        if (resultSet.next()){
+                            ret = new Review(
+                                    review_id,
+                                    resultSet.getString("p_alias"),
+                                    resultSet.getString("d_alias"),
+                                    resultSet.getInt("rating"),
+                                    resultSet.getDate("date"),
+                                    resultSet.getString("comments"));
+                       }
+
+                       return ret;
+                   } finally {
+                       if (pstmt != null) {
+                           pstmt.close();
+                       }
+
+                       if (con != null) {
+                           con.close();
+                       }
+                   }
+               }       
+            
+            public static int writeReview(String p_alias, String d_alias, int rating, String comments)
             throws ClassNotFoundException, SQLException{
 		
             Connection con = null;
@@ -607,7 +651,7 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "INSERT INTO Review (p_alias d_alias, rating, date, comments) ";
+                String query = "INSERT INTO Review (p_alias, d_alias, rating, date, comments) ";
                 query += " VALUES(?,?,?,CURDATE(),?)";
                 
                 pstmt = con.prepareStatement(query);
@@ -617,8 +661,7 @@ public class ProjectDBAO {
                 pstmt.setInt(3, rating);
                 pstmt.setString(4, comments);
                 
-                 ResultSet resultSet;
-                 resultSet = pstmt.executeQuery();
+                return pstmt.executeUpdate();
             } finally {
                 if (pstmt != null) {
                     pstmt.close();

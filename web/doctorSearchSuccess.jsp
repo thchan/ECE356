@@ -26,7 +26,7 @@
             <%
             if( doctorList != null) {
                 for (Doctor doc : doctorList) {
-                    if (friend_reviewed == doc.is_friend_reviewed){
+                    if (friend_reviewed == false || friend_reviewed == doc.is_friend_reviewed){
             %>
             <tr>
                 <td><%= doc.getName()%></td>

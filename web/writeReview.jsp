@@ -17,13 +17,12 @@
         </head>
         <% String d_alias = request.getParameter("alias");%>
         <body>
-            <form method="post" action="AddEmployeeServlet">
-            Search Criteria:
+            <form method="post" action="writeReview">
+            
             <p>
-            <input type="hidden" name="patAlias" value="TODO get current alias"><br/>
-            Province: <input type="text" name="Province" size="40"><br/>
-            City: <input type="text" name="City" size="40"><br/>  
-            <input type="hidden" name="docAlias" value="<%=d_alias%>">
+            Rating: <input type="number" min="0" max="5" name="rating" value="0" size="40"><br/>
+            Comments: <input type="text" name="comments" size="500"><br/>  
+            <input type="hidden" name="d_alias" value="<%=d_alias%>">
             <p> <input type="submit" value="Submit">
         </body>
     </html>
