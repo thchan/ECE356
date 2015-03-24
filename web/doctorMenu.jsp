@@ -10,8 +10,7 @@
  Login user;
  user = (Login)session.getAttribute("user");
 if(  user.is_Patient == true) {
-    response.sendRedirect("/ECE356_Project/patientMenu.jsp");
- //forward("/patientMenu.jsp").forward(request, response);
+    response.sendRedirect("patientMenu.jsp");
 }
 %>
 
@@ -26,6 +25,7 @@ if(  user.is_Patient == true) {
         </head>
         <body>
             <li><a href="viewDoctorProfile?alias=<%=user.user_alias%>">My Profile</a></li>
+            <li><a href="logout">Log out</a></li>
         </body>
     </html>
 </f:view>

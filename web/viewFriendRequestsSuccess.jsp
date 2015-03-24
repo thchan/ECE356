@@ -7,6 +7,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="ece356_project.FriendRequest"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="ece356_project.Login"%>
+<%
+ Login user;
+ user = (Login)session.getAttribute("user");
+if(  user.is_Patient == false) {
+    response.sendRedirect("doctorMenu.jsp");
+}
+%>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

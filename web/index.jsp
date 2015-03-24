@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Please Login:</h1><br><br>
-        <form action="LoginServlet">
+        <form action="LoginServlet" method="post">
             Username:<br>
             <input type="text" name="user_alias"><br>
             Password:<br>
@@ -21,11 +21,6 @@
             <input type="submit" value="Log In"><br> 
         </form>
         <br>
-        <!-- These links are place holders for other pages -->
-        <li><a href="patientSearch.jsp">Patient Search</a></li>        
-        <li><a href="doctorSearchInit">Doctor Search</a></li>        
-        <li><a href="queryEmployee.jsp">View Friend Requests</a></li>        
-        <li><a href="AddEmployeeServlet">View Own Profile</a></li>
         </ul>
     </body>
 </html>

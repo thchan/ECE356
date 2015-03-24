@@ -10,6 +10,14 @@
 <%@page import="ece356_project.Specialization"%>
 <%@page import="ece356_project.WorkAddress"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="ece356_project.Login"%>
+<%
+ Login user;
+ user = (Login)session.getAttribute("user");
+if(  user.is_Patient == true) {
+    response.sendRedirect("patientMenu.jsp");
+}
+%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">

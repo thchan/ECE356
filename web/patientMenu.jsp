@@ -5,6 +5,14 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="ece356_project.Login"%>
+<%
+ Login user;
+ user = (Login)session.getAttribute("user");
+if(  user.is_Patient == false) {
+    response.sendRedirect("doctorMenu.jsp");
+}
+%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,6 +27,7 @@
             <li><a href="doctorSearchInit">Doctor Search</a></li>
             <li><a href="patientSearch.jsp">Patient Search</a></li>
             <li><a href="patientSearch.jsp">Friend Requests</a></li>
+            <li><a href="logout">Log out</a></li>
         </body>
     </html>
 </f:view>
