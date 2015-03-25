@@ -11,7 +11,9 @@
 <%
  Login user;
  user = (Login)session.getAttribute("user");
-if(  user.is_Patient == false) {
+if(user == null) {
+    response.sendRedirect("index.jsp");
+}else if(  user.is_Patient == false) {
     response.sendRedirect("doctorMenu.jsp");
 }
 %>

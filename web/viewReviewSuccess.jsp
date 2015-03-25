@@ -4,10 +4,19 @@
     Author     : Thomas
 --%>
 
+<%@page import="ece356_project.Login"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="ece356_project.Review"%>
 <%@page import="ece356_project.Doctor"%>
-
+<%
+ Login user;
+ user = (Login)session.getAttribute("user");
+if(user == null) {
+    response.sendRedirect("index.jsp");
+}else if(  user.is_Patient == false) {
+    response.sendRedirect("doctorMenu.jsp");
+}
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
