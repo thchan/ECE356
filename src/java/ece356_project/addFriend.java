@@ -57,7 +57,7 @@ public class addFriend extends HttpServlet {
                 
                 boolean theirRequestExists = ProjectDBAO.theirRequestExists(user.user_alias, p_alias);
                 boolean yourRequestExists = ProjectDBAO.yourRequestExists(user.user_alias, p_alias);
-                if (user.user_alias == p_alias)
+                if (user.user_alias.contentEquals(p_alias))
                 {
                     url = ("/cannotBeFriendsWithSelf.jsp");
                 }
