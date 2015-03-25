@@ -41,8 +41,18 @@ public class confirmFriend extends HttpServlet {
             HttpSession session = request.getSession();
             user = (Login)session.getAttribute("user");
             String p_alias = request.getParameter("alias");
-            ProjectDBAO.confirmFriend(user.user_alias, p_alias);
-            url = ("/confirmFriendSuccess.jsp");
+            
+            boolean alreadyFriends = ProjectDBAO.areFriends(user.user_alias, p_alias);
+            if(alreadyFriends)
+            {
+                url = ("/alreadyFriends.jsp");
+            }
+            else
+            {
+                ProjectDBAO.confirmFriend(user.user_alias, p_alias);
+                url = ("/confirmFriendSuccess.jsp");
+            }
+                        
         }catch(Exception e){
             request.setAttribute("errmsg", e);
             url = "/error.jsp";

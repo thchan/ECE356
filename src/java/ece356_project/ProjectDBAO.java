@@ -706,19 +706,14 @@ public class ProjectDBAO {
                 con = getConnection();
                 
                 /* Build SQL query */
-                String query = "SELECT Friend.p_alias_b AS requestor, PatientData.email_address ";
-                query += "FROM Friend INNER JOIN PatientData ";
-                query += "ON (Friend.p_alias_b = PatientData.user_alias) ";
-                query += "WHERE (Friend.p_alias_a = ? AND Friend.flag = false) ";
-                query += "UNION ";
-                query += "SELECT Friend.p_alias_a AS requestor, PatientData.email_address ";
+      
+                String query = "SELECT Friend.p_alias_a AS requestor, PatientData.email_address ";
                 query += "FROM Friend INNER JOIN PatientData ";
                 query += "ON (Friend.p_alias_a = PatientData.user_alias) ";
                 query += "WHERE (Friend.p_alias_b = ? AND Friend.flag = false)";
                 
                 pstmt = con.prepareStatement(query);
                 pstmt.setString(1, user_alias);
-                pstmt.setString(2, user_alias);
                 
                 ResultSet resultSet;
                 resultSet = pstmt.executeQuery();
