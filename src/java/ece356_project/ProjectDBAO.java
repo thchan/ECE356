@@ -291,11 +291,10 @@ public class ProjectDBAO {
                 }
                 
                 if (address.length() != 0){
-                    query += " AND address like ?";
-                }
-                
-                if (address.length() != 0){
-                    query += " AND postal_code like ?";
+                    query += " AND (address like ?";
+                    query += " OR postal_code like ?";
+                    query += " OR city like ?";
+                    query += " OR province like ?)";
                 }
                 
                 if (!gender.equals("null")){
@@ -337,9 +336,8 @@ public class ProjectDBAO {
                 
                  if (address.length() != 0){
                     pstmt.setString(++num, "%"+address+"%");
-                }
-                
-                if (address.length() != 0){
+                    pstmt.setString(++num, "%"+address+"%");
+                    pstmt.setString(++num, "%"+address+"%");
                     pstmt.setString(++num, "%"+address+"%");
                 }
                 

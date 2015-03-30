@@ -13,8 +13,6 @@
  user = (Login)session.getAttribute("user");
 if(user == null) {
     response.sendRedirect("index.jsp");
-}else if(  user.is_Patient == false) {
-    response.sendRedirect("doctorMenu.jsp");
 }
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
